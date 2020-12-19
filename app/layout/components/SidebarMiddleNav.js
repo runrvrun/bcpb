@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SidebarMenu } from './../../components';
+import { SidebarMenu } from '../../components';
 
 export const SidebarMiddleNav = () => (
     <SidebarMenu>
@@ -9,7 +9,7 @@ export const SidebarMiddleNav = () => (
             title="Dashboard"
         >
             <SidebarMenu.Item title="Rekap" to='/dashboards/rekap' exact />
-            <SidebarMenu.Item title="Kantor" to='/dashboards/projects' exact />
+            <SidebarMenu.Item title="Kantor" to='/dashboards/kantor' exact />
         </SidebarMenu.Item>
         <SidebarMenu.Item
             icon={<i className="fa fa-fw fa-th"></i>}
@@ -17,6 +17,12 @@ export const SidebarMiddleNav = () => (
         >
             <SidebarMenu.Item title="Rekap penerimaan" to='/browse/penerimaan' exact />
             <SidebarMenu.Item title="Data CN" to='/browse/cn' exact />
+        </SidebarMenu.Item>
+        <SidebarMenu.Item
+            icon={<i className="fa fa-fw fa-user"></i>}
+            title="Administrator"
+        >
+            <SidebarMenu.Item title="User management" to='/browse/penerimaan' exact />
         </SidebarMenu.Item>
     </SidebarMenu >
 );

@@ -6,7 +6,7 @@ import {
     Nav,
     NavItem,
     SidebarTrigger
-} from './../../components';
+} from '../../components';
 
 import { NavbarActivityFeed } from './NavbarActivityFeed';
 import { NavbarMessages } from './NavbarMessages';
@@ -25,7 +25,7 @@ export const SidebarANavbar = () => (
             </NavItem>
         </Nav>
         <Nav navbar className="ml-auto">
-            <NavbarActivityFeed />
+            {/* <NavbarActivityFeed /> */}
             <NavbarMessages className="ml-2" />
             <NavbarUser className="ml-2" />
         </Nav>

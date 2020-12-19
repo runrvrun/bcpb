@@ -50,7 +50,7 @@ export const LayoutNavbar = () => (
             { /* START Navbar: Right Side */ }
             <Nav className="ml-auto" pills>
                 <NavbarMessages />
-                <NavbarActivityFeed />
+                {/* <NavbarActivityFeed /> */}
                 { /* START Navbar: Dropdown */ }
                 <UncontrolledDropdown nav inNavbar>
                     <DropdownToggle nav>
