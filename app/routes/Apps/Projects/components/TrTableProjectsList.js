@@ -6,13 +6,11 @@ import { Link } from 'react-router-dom';
 import { 
     Badge,
     Progress,
-    Avatar,
     UncontrolledButtonDropdown,
     DropdownToggle,
     DropdownMenu,
     DropdownItem
 } from './../../../../components';
-import { randomAvatar } from './../../../../utilities';
 
 /*eslint-disable */
 const status = [
@@ -75,10 +73,7 @@ const TrTableProjectsList = () => (
                         </div>
                     </td>
                     <td className="align-middle">
-                        <Avatar.Image
-                            size="md"
-                            src={ randomAvatar() }
-                        />
+                        
                     </td>
                     <td className="align-middle text-right">
                         <UncontrolledButtonDropdown>

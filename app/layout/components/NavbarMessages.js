@@ -4,7 +4,6 @@ import _ from 'lodash';
 import PropTypes from 'prop-types';
 
 import {
-    Avatar,
     UncontrolledDropdown,
     DropdownToggle,
     IconWithBadge,
@@ -58,12 +57,6 @@ const NavbarMessages = (props) => (
                     _.times(3, (index) => (
                         <ListGroupItem tag={ ExtendedDropdown.Link } to="/apps/email-details" key={ index } action>
                             <Media>
-                                <Media left>
-                                    <Avatar.Image
-                                        src={ faker.image.avatar() }
-                                        className='mr-4'
-                                    />
-                                </Media>
                                 <Media body>
                                     <span className="d-flex justify-content-start">
                                         <i

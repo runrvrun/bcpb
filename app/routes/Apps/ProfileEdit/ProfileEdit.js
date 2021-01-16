@@ -53,15 +53,7 @@ const ProfileEdit = () => (
                                 </div>
                                 { /* START File Select */}
                                 <FormGroup row>
-                                    <Label for="uploadYourAvatar" sm={3} className="text-right">
-                                        Upload Your Avatar
-                                    </Label>
-                                    <Col sm={8}>
-                                        <CustomInput type="file" id="uploadYourAvatar" name="customFile" label="Browse for a file to upload...." />
-                                        <FormText color="muted">
-                                            JPG, GIF, PNG, MOV and AVI. Please choose a files under 2GB to upload. File sizes are 400 x 300px.
-                                        </FormText>
-                                    </Col>
+                                   
                                 </FormGroup>
                                 { /* END File Select */}
                                 { /* START Input */}

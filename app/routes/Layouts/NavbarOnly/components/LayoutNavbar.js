@@ -6,14 +6,11 @@ import {
     Nav,
     NavItem,
     NavLink,
-    Avatar,
-    AvatarAddOn,
     Navbar,
     NavbarToggler,
     UncontrolledDropdown,
     ThemeConsumer,
 } from './../../../../components';
-import { randomAvatar } from './../../../../utilities';
 
 import { NavbarActivityFeed } from
     './../../../../layout/components/NavbarActivityFeed';
@@ -23,8 +20,6 @@ import { NavbarUser } from
     './../../../../layout/components/NavbarUser';
 import { DropdownProfile } from
     './../../../components/Dropdowns/DropdownProfile';
-import { NavbarNavigation } from
-    './../../../components/Navbars/NavbarNavigation';
 import { LogoThemed } from
     './../../../components/LogoThemed/LogoThemed';
 
@@ -43,9 +38,6 @@ export const LayoutNavbar = () => (
                 </NavItem>
             </Nav>
 
-            { /* Navigation with Collapse */ }
-            <NavbarNavigation pills />
-
             { /* END Navbar: Left Side */ }
             { /* START Navbar: Right Side */ }
             <Nav className="ml-auto" pills>
@@ -54,22 +46,7 @@ export const LayoutNavbar = () => (
                 { /* START Navbar: Dropdown */ }
                 <UncontrolledDropdown nav inNavbar>
                     <DropdownToggle nav>
-                        <Avatar.Image
-                            size="sm"
-                            src={ randomAvatar() }
-                            addOns={[
-                                <AvatarAddOn.Icon 
-                                    className="fa fa-circle"
-                                    color="white"
-                                    key="avatar-icon-bg"
-                                />,
-                                <AvatarAddOn.Icon 
-                                    className="fa fa-circle"
-                                    color="danger"
-                                    key="avatar-icon-fg"
-                                />
-                            ]}
-                        /> 
+                        xxx
                     </DropdownToggle>
                     <DropdownProfile  
                         right  

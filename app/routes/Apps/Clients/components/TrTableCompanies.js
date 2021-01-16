@@ -3,10 +3,8 @@ import faker from 'faker/locale/en_US';
 import PropTypes from 'prop-types';
 
 import { 
-    Avatar,
     CustomInput,
     UncontrolledTooltip,
-    AvatarAddOn,
     Media
 } from './../../../../components';
 import { randomArray } from './../../../../utilities';
@@ -247,23 +245,7 @@ const TrTableCompanies = (props) => (
                 { randomArray(brand) }
             </td>
             <td className="align-middle">
-                <Avatar.Image
-                    size="sm"
-                    src="http://bs4.webkom.co/img/avatars/2.jpg"
-                    className="mr-2"
-                    addOns={[
-                        <AvatarAddOn.Icon 
-                            className="fa fa-circle"
-                            color="white"
-                            key="avatar-icon-bg"
-                        />,
-                        <AvatarAddOn.Icon 
-                            className="fa fa-circle"
-                            color={ randomArray(status) }
-                            key="avatar-icon-fg"
-                        />
-                    ]}
-                />
+               
             </td>
             <td className="align-middle text-right">
                 { faker.phone.phoneNumberFormat() }<br />

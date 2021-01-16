@@ -1,5 +1,3 @@
-import Accordion from './Accordion';
-import Avatar, { AvatarAddOn } from './Avatar';
 import Card from './Card';
 import CardHeader from './CardHeader';
 import Checkable from './Checkable';
@@ -38,7 +36,6 @@ import Tools from './Tools';
 import UncontrolledModal from './UncontrolledModal';
 import UncontrolledPopover from './UncontrolledPopover';
 import UncontrolledTabs from './UncontrolledTabs';
-import Wizard from './Wizard';
 // Export non overriden Reactstrap components
 export {
     Alert,
@@ -114,10 +111,7 @@ export {
     UncontrolledTooltip
 } from 'reactstrap';
 export {
-    Accordion,
     //App,
-    Avatar,
-    AvatarAddOn,
     Card,
     CardHeader,
     Checkable,
@@ -153,5 +147,4 @@ export {
     UncontrolledPopover,
     UncontrolledTabs,
     UncontrolledModal,
-    Wizard
 };

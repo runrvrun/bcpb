@@ -5,15 +5,10 @@ import { Link } from 'react-router-dom';
 import { 
     Sidebar,
     UncontrolledButtonDropdown,
-    Avatar,
-    AvatarAddOn,
     DropdownToggle,
     DropdownMenu,
     DropdownItem
 } from './../../../components';
-import { randomAvatar } from './../../../utilities';
-
-const avatarImg = randomAvatar();
 
 const SidebarTopA = () => (
     <React.Fragment>
@@ -21,24 +16,7 @@ const SidebarTopA = () => (
         <Sidebar.HideSlim>
             <Sidebar.Section className="pt-0">
                 <Link to="/" className="d-block">
-                    <Sidebar.HideSlim>
-                        <Avatar.Image
-                            size="lg"
-                            src={ avatarImg }
-                            addOns={[
-                                <AvatarAddOn.Icon 
-                                    className="fa fa-circle"
-                                    color="white"
-                                    key="avatar-icon-bg"
-                                />,
-                                <AvatarAddOn.Icon 
-                                    className="fa fa-circle"
-                                    color="success"
-                                    key="avatar-icon-fg"
-                                />
-                            ]}
-                        />
-                    </Sidebar.HideSlim>
+                   
                 </Link>
                 
                 <UncontrolledButtonDropdown>
@@ -77,22 +55,7 @@ const SidebarTopA = () => (
         { /* START: Sidebar Slim */ }
         <Sidebar.ShowSlim>
             <Sidebar.Section>
-                <Avatar.Image
-                    size="sm"
-                    src={ avatarImg }
-                    addOns={[
-                        <AvatarAddOn.Icon 
-                            className="fa fa-circle"
-                            color="white"
-                            key="avatar-icon-bg"
-                        />,
-                        <AvatarAddOn.Icon 
-                            className="fa fa-circle"
-                            color="success"
-                            key="avatar-icon-fg"
-                        />
-                    ]}
-                />
+                
             </Sidebar.Section>
         </Sidebar.ShowSlim>
         { /* END: Sidebar Slim */ }

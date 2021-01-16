@@ -5,16 +5,14 @@ import PropTypes from 'prop-types';
 import { 
     Badge,
     CustomInput,
-    Avatar,
     HolderProvider,
     CardImg,
     Media,
-    AvatarAddOn,
     Button,
     UncontrolledTooltip
 } from './../../../../components';
 
-import { randomArray, randomAvatar } from './../../../../utilities';
+import { randomArray } from './../../../../utilities';
 
 const status = [
     "secondary",
@@ -66,22 +64,7 @@ const TrTableGalleryList = (props) => (
             <td className="align-middle">
                 <Media>
                     <Media left className="align-self-center mr-3">
-                        <Avatar.Image
-                            size="md"
-                            src={ randomAvatar() }
-                            addOns={[
-                                <AvatarAddOn.Icon 
-                                    className="fa fa-circle"
-                                    color="white"
-                                    key="avatar-icon-bg"
-                                />,
-                                <AvatarAddOn.Icon 
-                                    className="fa fa-circle"
-                                    color={ randomArray(status) }
-                                    key="avatar-icon-fg"
-                                />
-                            ]}
-                        /> 
+                        
                     </Media>
                     <Media body>
                         <a className="mt-0 text-decoration-none d-flex" href="#">

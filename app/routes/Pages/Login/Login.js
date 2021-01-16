@@ -25,10 +25,13 @@ function Login(props) {
     <Formik
         initialValues={{ email: "", password: "" }}
         onSubmit={(values, {setSubmitting}) => {
+            // remove existing session
+            sessionStorage.removeItem('token');
+            
             console.log("Logging in")
             axios.post('http://localhost:8080/login', { email: values.email, password: values.password }).then(response => {
             //   setUserSession(response.data.token, response.data.user);
-            setUserSession("token1234", response.data.user);
+            setUserSession(response.data.access_token);
             }).catch(error => {
                 console.log(error);
                 if (error.response.status === 401) setError(error.response.data.message);

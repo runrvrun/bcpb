@@ -9,7 +9,6 @@ import {
 
 import { FooterAuth } from '../Pages/FooterAuth';
 import { FooterText } from '../FooterText';
-import { VersionSelector } from '../VersionSelector';
 
 const SidebarBottomA = () => (
     <React.Fragment>

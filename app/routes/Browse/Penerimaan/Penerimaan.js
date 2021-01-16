@@ -1,9 +1,13 @@
 import React from 'react';
 import { chain, reduce } from 'lodash';
 import fetch from 'node-fetch';
+import axios from 'axios';
 
 import {
     Container,
+    ButtonToolbar,
+    ButtonGroup,
+    Button,
     Card,
     CardFooter,
     CardHeader,
@@ -24,254 +28,89 @@ import {
 import colors from '../../../colors';
 
 /*
-    CONSTS
-*/
-const DATA_URL = "https://api.myjson.com/bins/18oni9";
-
-const COUNTRY_CODES = {
-    Ireland: "ie",
-    Spain: "es",
-    "United Kingdom": "gb",
-    France: "fr",
-    Germany: "de",
-    Sweden: "se",
-    Italy: "it",
-    Greece: "gr",
-    Iceland: "is",
-    Portugal: "pt",
-    Malta: "mt",
-    Norway: "no",
-    Brazil: "br",
-    Argentina: "ar",
-    Colombia: "co",
-    Peru: "pe",
-    Venezuela: "ve",
-    Uruguay: "uy"
-};
-
-const IT_SKILLS = ["android", "css", "html5", "mac", "windows"];
-const IT_SKILLS_NAMES = ["Android", "CSS", "HTML 5", "Mac", "Windows"];
-
-const PROFICIENCY_NONE = "none";
-const PROFICIENCY_ABOVE40 = "above40";
-const PROFICIENCY_ABOVE60 = "above60";
-const PROFICIENCY_ABOVE80 = "above80";
-
-const PROFICIENCY_NAMES = ["No Filter", "Above 40%", "Above 60%", "Above 80%"];
-const PROFICIENCY_VALUES = [
-    PROFICIENCY_NONE,
-    PROFICIENCY_ABOVE40,
-    PROFICIENCY_ABOVE60,
-    PROFICIENCY_ABOVE80
-];
-
-/*
     Custom Renderers
 */
-const nameRenderer = ({ data }) => `
+const kd_ktr1Renderer = ({ data }) => `
         <span class="text-inverse">
-            ${ data.name }
+            ${ data.kd_ktr1 }
         </span>
     `;
-const skillsCellRenderer = ({ data }) =>
-    chain(IT_SKILLS)
-        .map((skill) => data && data.skills[skill] ?
-            `<img src="//www.ag-grid.com/images/skills/${skill}.png" width="16px" title="${ skill }" />` : ''
-        )
-        .compact()
-        .join(' ')
-        .value();
-const countryCellRenderer = ({ value }) => `
-        <img width="15" height="10" style="margin-bottom: 2px" src="https://flags.fmcdn.net/data/flags/mini/${COUNTRY_CODES[value]}.png" /> ${ value }
-    `;
-const percentCellRenderer = ({ value }) => {
-    const eDivPercentBar = document.createElement('div');
-    eDivPercentBar.className = 'div-percent-bar';
-    eDivPercentBar.style.width = `${value}%`;
-    if (value < 20) {
-        eDivPercentBar.style.backgroundColor = colors['danger'];
-    } else if (value < 60) {
-        eDivPercentBar.style.backgroundColor = colors['warning'];
-    } else {
-        eDivPercentBar.style.backgroundColor = colors['success'];
-    }
+const nmktr1Renderer = ({ data }) => `
+    <span class="text-inverse">
+        ${ data.nmktr1 }
+    </span>
+`;
+const jns_ddp1Renderer = ({ data }) => `
+    <span class="text-inverse">
+        ${ data.jns_ddp1 }
+    </span>
+`;
+const no_ddp1Renderer = ({ data }) => `
+    <span class="text-inverse">
+        ${ data.no_ddp1 }
+    </span>
+`;
+const tgl_ddp1Renderer = ({ data }) => `
+    <span class="text-inverse">
+        ${ data.tgl_ddp1 }
+    </span>
+`;
+const wb1Renderer = ({ data }) => `
+    <span class="text-inverse">
+        ${ data.wb1 }
+    </span>
+`;
+const jns_dbp1Renderer = ({ data }) => `
+    <span class="text-inverse">
+        ${ data.jns_dbp1 }
+    </span>
+`;
+const no_dbp1Renderer = ({ data }) => `
+    <span class="text-inverse">
+        ${ data.no_dbp1 }
+    </span>
+`;
+const tgl_dbp1Renderer = ({ data }) => `
+    <span class="text-inverse">
+        ${ data.tgl_dbp1 }
+    </span>
+`;
+const ntb_ntp1Renderer = ({ data }) => `
+    <span class="text-inverse">
+        ${ data.ntb_ntp1 }
+    </span>
+`;
+const ntpn1Renderer = ({ data }) => `
+    <span class="text-inverse">
+        ${ data.ntpn1 }
+    </span>
+`;
+const tgl_ntpn1Renderer = ({ data }) => `
+    <span class="text-inverse">
+        ${ data.tgl_ntpn1 }
+    </span>
+`;
+const akun1Renderer = ({ data }) => `
+    <span class="text-inverse">
+        ${ data.akun1 }
+    </span>
+`;
+const nilai1Renderer = ({ data }) => `
+    <span class="text-inverse">
+        ${ data.nilai1 }
+    </span>
+`;
+const ppnRenderer = ({ data }) => `
+    <span class="text-inverse">
+        ${ data.ppn }
+    </span>
+`;
+const pphRenderer = ({ data }) => `
+    <span class="text-inverse">
+        ${ data.pph }
+    </span>
+`;
 
-    const eValue = document.createElement('div');
-    eValue.className = 'div-percent-value';
-    eValue.innerHTML = `${value}%`;
-
-    const eOuterDiv = document.createElement('div');
-    eOuterDiv.className = 'div-outer-div';
-    eOuterDiv.appendChild(eDivPercentBar);
-    eOuterDiv.appendChild(eValue);
-
-    return eOuterDiv;
-}
-
-/*
-    Custom Filters
-*/
-class SkillFilter {
-    init({ filterChangedCallback }) {
-        this.filterChangedCallback = filterChangedCallback;
-
-        // Initial State
-        this.model = {
-            android: false,
-            css: false,
-            html5: false,
-            mac: false,
-            windows: false
-        }
-    }
-    getModel() { }
-    setModel() { }
-    getGui() {
-        const eGui = document.createElement("div");
-
-        const eInstructions = document.createElement("div");
-        eInstructions.className = "h6 dropdown-header";
-        eInstructions.innerText = "Custom Skills Filter";
-        eGui.appendChild(eInstructions);
-
-        const createCheckMarkElement = () => {
-            var eCheckMark = document.createElement('i');
-            eCheckMark.className = "fa fa-check fa-fw ml-auto text-success";
-
-            return eCheckMark;
-        }
-
-        IT_SKILLS.forEach((skill, index) => {
-            const skillName = IT_SKILLS_NAMES[index];
-
-            const eFilter = document.createElement("a");
-            eFilter.className = "dropdown-item d-flex align-items-center"
-            //eFilter.classList.toggle("active", this.model[skill]);
-            eFilter.href="javascript:;";
-
-            const eImg = document.createElement("img");
-            eImg.src = '//www.ag-grid.com/images/skills/' + skill + '.png';
-            eImg.height = 20;
-            eImg.className = "mr-2";
-
-            const eName = document.createElement('span');
-            eName.innerText = skillName;
-
-            eFilter.appendChild(eImg);
-            eFilter.appendChild(eName);
-            if (this.model[skill]) {
-                eFilter.appendChild(
-                    createCheckMarkElement()
-                );
-            }
-            eGui.appendChild(eFilter);
-
-            eFilter.addEventListener("click", (e) => {
-                const element = e.currentTarget;
-                this.model[skill] = !this.model[skill];
-                this.filterChangedCallback();
-
-                // Toggle check marks
-                if (this.model[skill]) {
-                    element.appendChild(
-                        createCheckMarkElement()
-                    );
-                } else {
-                    const eCheckMark = element.querySelector('i');
-
-                    if (eCheckMark) { eCheckMark.remove() }
-                }
-
-                return false;
-            });
-        });
-
-        return eGui;
-    }
-    doesFilterPass({ data }) {
-        const rowSkills = data.skills;
-        const { model } = this;
-
-        const passed = reduce(
-            IT_SKILLS,
-            (acc, skill) => acc || (rowSkills[skill] && model[skill]),
-            false
-        );
-
-        return passed;
-    }
-    isFilterActive() {
-        return (
-            this.model.android ||
-            this.model.css ||
-            this.model.html5 ||
-            this.model.mac ||
-            this.model.windows
-        );
-    }
-}
-
-class ProficiencyFilter {
-    init({ filterChangedCallback, valueGetter }) {
-        this.filterChangedCallback = filterChangedCallback;
-        this.valueGetter = valueGetter;
-
-        this.selected = PROFICIENCY_NONE;
-    }
-    getModel() { }
-    setModel() { }
-    getGui() {
-        const eGui = document.createElement("div");
-
-        const eInstructions = document.createElement("div");
-        eInstructions.className = "h6 dropdown-header";
-        eInstructions.innerText = "Custom Proficiency Filter";
-        eGui.appendChild(eInstructions);
-
-        PROFICIENCY_NAMES.forEach((name, index) => {
-            const eFilter = document.createElement("a");
-            eFilter.className = "dropdown-item"
-            eFilter.classList.toggle("active", PROFICIENCY_VALUES[index] === this.selected);
-            eFilter.href="javascript:;";
-            eFilter.innerText = name;
-            
-            eGui.appendChild(eFilter);
-
-            eFilter.addEventListener("click", (e) => {
-                const element = e.currentTarget;
-                element.parentElement.childNodes.forEach(function(node) {
-                    node.classList.toggle('active', false);
-                });
-                element.classList.toggle("active");
-
-                this.selected = PROFICIENCY_VALUES[index];
-                this.filterChangedCallback();
-
-                return false;
-            });
-        });
-
-        return eGui;
-    }
-    doesFilterPass(params) {
-        const value = this.valueGetter(params);
-        const valueAsNumber = parseFloat(value);
-
-        switch (this.selected) {
-            case PROFICIENCY_ABOVE40:
-                return valueAsNumber >= 40;
-            case PROFICIENCY_ABOVE60:
-                return valueAsNumber >= 60;
-            case PROFICIENCY_ABOVE80:
-                return valueAsNumber >= 80;
-            default:
-                return true;
-        }
-    }
-    isFilterActive() {
-        return this.selected !== PROFICIENCY_NONE;
-    }
-}
 
 export default class Penerimaan extends React.Component {
     constructor(props) {
@@ -280,7 +119,8 @@ export default class Penerimaan extends React.Component {
         this.state = {
             rowData: [],
             visibleCount: 0,
-            quickFilterValue: ''
+            quickFilterValue: '',
+            selectedFile: null
         };
 
         this.gridApi = null;
@@ -290,12 +130,18 @@ export default class Penerimaan extends React.Component {
         this.onQuickFilterChange = this.onQuickFilterChange.bind(this);
     }
 
-    componentDidMount() {
-        fetch(DATA_URL)
-            .then(res => res.json())
-            .then(fetchedData => {
-                this.setState({ rowData: fetchedData });
-            });
+    componentDidMount() {        
+        var token = sessionStorage.getItem('token');
+        const options = { headers: { Authorization: `Bearer ${token}` } };
+        axios.get("http://localhost:8080/penerimaan", options)
+            .then(res => {
+                    this.setState({ rowData: res.data });
+            })
+            .catch(err => console.log(err));
+            // .then(res => res.json())
+            // .then(fetchedData => {
+            //     this.setState({ rowData: fetchedData });
+            // });
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -323,26 +169,58 @@ export default class Penerimaan extends React.Component {
         this.setState({ quickFilterValue: e.target.value });
     }
 
+    onFileChange = event => { 
+        this.setState({ selectedFile: event.target.files[0] }); 
+        console.log("File selected: " + event.target.files[0].name); 
+    }; 
+
+    onFileUpload = () => { 
+        const formData = new FormData(); 
+        formData.append( 
+          "myFile", 
+          this.state.selectedFile, 
+          this.state.selectedFile.name 
+        ); 
+        console.log(this.state.selectedFile); 
+        console.log("Uploading file to server");
+        var token = sessionStorage.getItem('token');
+        const options = { headers: { Authorization: `Bearer ${token}` } };
+        axios.post("http://localhost:8080/penerimaan/upload", formData, options); 
+      }; 
+
     render() {
         const { rowData, visibleCount, quickFilterValue } = this.state;
 
         return (
             <Container>
-                <HeaderMain 
-                    title="Penerimaan"
-                    className="mb-5 mt-4"
-                />
-                <Form>
-                    <FormGroup row>
-                        <Label for="fileInput" sm={1}>Upload</Label>
-                        <Col sm={11}>
-                            <Input type="file" name="file" id="fileInput" />
-                        </Col>
-                    </FormGroup>
-                </Form>
+                <div>
+                    <div className="d-flex mt-3 mb-5">
+                        <HeaderMain 
+                        title="Penerimaan"
+                            className="mt-0"
+                        />
+                        <ButtonToolbar className="ml-auto">
+                            <ButtonGroup className="align-self-start mr-2">
+                                <Form>
+                                    <FormGroup row>
+                                        <Col sm={12}>
+                                            <Input type="file" name="file" id="fileInput" onChange={this.onFileChange} />
+                                        </Col>
+                                    </FormGroup>
+                                </Form>
+                            </ButtonGroup>
+                            <ButtonGroup className="align-self-start">
+                                <Button color="primary" className="mb-2 mr-2 px-3" onClick={this.onFileUpload}>
+                                    Upload
+                                </Button>
+                            </ButtonGroup>
+                        </ButtonToolbar>
+                    </div>
+                </div>
+                
                 <Card>
                     <CardHeader tag="h6" className="d-flex justify-content-between align-items-center bg-white bb-0">
-                        <span>AgGrid Example</span>
+                        <span>Penerimaan</span>
                         <div className="d-flex align-items-center">
                             <span className="mr-3 text-nowrap small">
                                 { visibleCount } / { rowData.length }
@@ -358,7 +236,7 @@ export default class Penerimaan extends React.Component {
                             </InputGroup>
                         </div>
                     </CardHeader>
-                    <div className="ag-theme-bootstrap" style={{ height: '600px' }}>
+                    <div className="ag-theme-bootstrap" style={{ height: '500px' }}>
                         <AgGridReact
                             rowData={ rowData }
                             rowSelection="multiple"
@@ -377,67 +255,104 @@ export default class Penerimaan extends React.Component {
                                 suppressMenu
                             />
 
-                            <AgGridColumn headerName="Employee">
                                 <AgGridColumn
-                                    headerName="Name"
-                                    field="name"
+                                    headerName="Kode Kantor"
+                                    field="kd_ktr1"
                                     width={ 150 }
-                                    cellRenderer={ nameRenderer }
+                                    cellRenderer={ kd_ktr1Renderer }
                                 />
                                 <AgGridColumn
-                                    headerName="Country"
-                                    field="country"
+                                    headerName="Nama Kantor"
+                                    field="nmktr1"
                                     width={ 150 }
-                                    cellRenderer={ countryCellRenderer }
-                                    filterParams={{
-                                        cellRenderer: countryCellRenderer,
-                                        cellHeight: 20
-                                    }}
-                                />
-                            </AgGridColumn>
-
-                            <AgGridColumn headerName="IT Skills">
-                                <AgGridColumn
-                                    headerName="Skills"
-                                    width={ 125 }
-                                    sortable={ false }
-                                    cellRenderer={ skillsCellRenderer }
-                                    filter={ SkillFilter }
+                                    cellRenderer={ nmktr1Renderer }
                                 />
                                 <AgGridColumn
-                                    headerName="Proficiency"
-                                    field="proficiency"
+                                    headerName="Jenis DDP"
+                                    field="jns_ddp1"
                                     width={ 150 }
-                                    cellRenderer={ percentCellRenderer }
-                                    filter={ ProficiencyFilter }
-                                />
-                            </AgGridColumn>
-
-                            <AgGridColumn headerName="Contact">
-                                <AgGridColumn
-                                    headerName="Mobile"
-                                    field="mobile"
-                                    width={ 180 }
-                                    filter="agTextColumnFilter"
+                                    cellRenderer={ jns_ddp1Renderer }
                                 />
                                 <AgGridColumn
-                                    headerName="Land-line"
-                                    field="landline"
-                                    width={ 180 }
-                                    filter="agTextColumnFilter"
+                                    headerName="Nomor DDP"
+                                    field="no_ddp1"
+                                    width={ 150 }
+                                    cellRenderer={ no_ddp1Renderer }
                                 />
                                 <AgGridColumn
-                                    headerName="Address"
-                                    field="address"
-                                    width={ 180 }
-                                    filter="agTextColumnFilter"
+                                    headerName="Tgl. DDP"
+                                    field="tgl_ddp1"
+                                    width={ 150 }
+                                    cellRenderer={ tgl_ddp1Renderer }
                                 />
-                            </AgGridColumn>
+                                <AgGridColumn
+                                    headerName="Wajib Bayar"
+                                    field="wb1"
+                                    width={ 150 }
+                                    cellRenderer={ wb1Renderer }
+                                />
+                                <AgGridColumn
+                                    headerName="Jenis DBP"
+                                    field="jns_dbp1"
+                                    width={ 150 }
+                                    cellRenderer={ jns_dbp1Renderer }
+                                />
+                                <AgGridColumn
+                                    headerName="Nomor DBP"
+                                    field="no_dbp1"
+                                    width={ 150 }
+                                    cellRenderer={ no_dbp1Renderer }
+                                />
+                                <AgGridColumn
+                                    headerName="Tgl. DBP"
+                                    field="tgl_dbp1"
+                                    width={ 150 }
+                                    cellRenderer={ tgl_dbp1Renderer }
+                                />
+                                <AgGridColumn
+                                    headerName="NTB / NTP"
+                                    field="ntb_ntp1"
+                                    width={ 150 }
+                                    cellRenderer={ ntb_ntp1Renderer }
+                                />
+                                <AgGridColumn
+                                    headerName="NTPN"
+                                    field="ntpn1"
+                                    width={ 150 }
+                                    cellRenderer={ ntpn1Renderer }
+                                />
+                                <AgGridColumn
+                                    headerName="Tgl. NTPN"
+                                    field="tgl_ntpn1"
+                                    width={ 150 }
+                                    cellRenderer={ tgl_ntpn1Renderer }
+                                />
+                                <AgGridColumn
+                                    headerName="Akun"
+                                    field="akun1"
+                                    width={ 150 }
+                                    cellRenderer={ akun1Renderer }
+                                />
+                                <AgGridColumn
+                                    headerName="Nilai"
+                                    field="nilai1"
+                                    width={ 150 }
+                                    cellRenderer={ nilai1Renderer }
+                                />
+                                <AgGridColumn
+                                    headerName="PPN"
+                                    field="ppn"
+                                    width={ 150 }
+                                    cellRenderer={ ppnRenderer }
+                                />
+                                <AgGridColumn
+                                    headerName="PPH"
+                                    field="pph"
+                                    width={ 150 }
+                                    cellRenderer={ pphRenderer }
+                                />
                         </AgGridReact>
                     </div>
-                    <CardFooter className="bg-white text-center">
-                        More examples of this table can be found <a href="https://www.ag-grid.com" target="_blank" rel="noopener noreferrer">Here</a>
-                    </CardFooter>
                 </Card>
             </Container>
         );

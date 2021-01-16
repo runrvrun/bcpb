@@ -7,27 +7,19 @@ import {
     Badge,
     CardFooter,
     HolderProvider,
-    Avatar,
     UncontrolledButtonDropdown,
     DropdownToggle,
     CardImg,
     DropdownMenu,
     DropdownItem,
-    AvatarAddOn
 } from './../../../components';
 
-import { randomArray, randomAvatar } from './../../../utilities';
+import { randomArray } from './../../../utilities';
 
 const badges = [
     "secondary"
 ];
 
-const avatarStatus = [
-    "secondary",
-    "warning",
-    "danger",
-    "success"
-];
 
 const FilesCardGrid = () => (
     <React.Fragment>
@@ -64,57 +56,7 @@ const FilesCardGrid = () => (
                         </Badge>
                     </div>
                     <div>
-                        <Avatar.Image
-                            size="md"
-                            src={ randomAvatar() }
-                            className="mr-3"
-                            addOns={[
-                                <AvatarAddOn.Icon 
-                                    className="fa fa-circle"
-                                    color="white"
-                                    key="avatar-icon-bg"
-                                />,
-                                <AvatarAddOn.Icon 
-                                    className="fa fa-circle"
-                                    color={ randomArray(avatarStatus) }
-                                    key="avatar-icon-fg"
-                                />
-                            ]}
-                        />
-                        <Avatar.Image
-                            size="md"
-                            src={ randomAvatar() }
-                            className="mr-3"
-                            addOns={[
-                                <AvatarAddOn.Icon 
-                                    className="fa fa-circle"
-                                    color="white"
-                                    key="avatar-icon-bg"
-                                />,
-                                <AvatarAddOn.Icon 
-                                    className="fa fa-circle"
-                                    color={ randomArray(avatarStatus) }
-                                    key="avatar-icon-fg"
-                                />
-                            ]}
-                        />
-                        <Avatar.Image
-                            size="md"
-                            src={ randomAvatar() }
-                            className="mr-3"
-                            addOns={[
-                                <AvatarAddOn.Icon 
-                                    className="fa fa-circle"
-                                    color="white"
-                                    key="avatar-icon-bg"
-                                />,
-                                <AvatarAddOn.Icon 
-                                    className="fa fa-circle"
-                                    color={ randomArray(avatarStatus) }
-                                    key="avatar-icon-fg"
-                                />
-                            ]}
-                        />
+                        
                     </div>
                 </CardBody>
                 <CardFooter>

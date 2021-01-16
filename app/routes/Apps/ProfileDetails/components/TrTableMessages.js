@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom';
 
 import { 
     Badge,
-    Avatar,
-    AvatarAddOn,
     Media
 } from './../../../../components';
 
@@ -31,22 +29,7 @@ const TrTableMessages = () => (
             <td className="align-middle">
                 <Media>
                     <Media left className="align-self-center mr-3">
-                        <Avatar.Image
-                            size="sm"
-                            src="http://bs4.webkom.co/img/avatars/2.jpg"
-                            addOns={[
-                                <AvatarAddOn.Icon 
-                                    className="fa fa-circle"
-                                    color="white"
-                                    key="avatar-icon-bg"
-                                />,
-                                <AvatarAddOn.Icon 
-                                    className="fa fa-circle"
-                                    color={ randomArray(status) }
-                                    key="avatar-icon-fg"
-                                />
-                            ]}
-                        />
+                        
                     </Media>
                     <Media body>
                         <div className="mt-0 d-flex text-inverse">

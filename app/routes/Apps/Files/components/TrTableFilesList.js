@@ -3,16 +3,14 @@ import faker from 'faker/locale/en_US';
 
 import { 
     Badge,
-    Avatar,
     UncontrolledButtonDropdown,
     DropdownToggle,
     DropdownMenu,
-    AvatarAddOn,
     Media,
     DropdownItem
 } from './../../../../components';
 
-import { randomArray, randomAvatar } from './../../../../utilities';
+import { randomArray } from './../../../../utilities';
 
 const badges = [
     "secondary"
@@ -48,22 +46,7 @@ const TrTableFilesList = () => (
                 12:23 PM
             </td>
             <td className="align-middle">
-                <Avatar.Image
-                    size="md"
-                    src={ randomAvatar() }
-                    addOns={[
-                        <AvatarAddOn.Icon 
-                            className="fa fa-circle"
-                            color="white"
-                            key="avatar-icon-bg"
-                        />,
-                        <AvatarAddOn.Icon 
-                            className="fa fa-circle"
-                            color={ randomArray(status) }
-                            key="avatar-icon-fg"
-                        />
-                    ]}
-                />
+                
             </td>
             <td className="align-middle">
                 <Badge color={ randomArray(badges) } pill className="mr-1">

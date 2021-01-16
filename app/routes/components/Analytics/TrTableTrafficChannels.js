@@ -3,8 +3,6 @@ import _ from 'lodash';
 import faker from 'faker/locale/en_US';
 import {  
     Media, 
-    Avatar,
-    AvatarAddOn
 } from './../../../components';
 
 import { randomArray } from './../../../utilities';

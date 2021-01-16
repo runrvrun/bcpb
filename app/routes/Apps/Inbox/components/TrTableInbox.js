@@ -5,14 +5,12 @@ import { Link } from 'react-router-dom';
 
 import { 
     Badge,
-    Avatar,
     UncontrolledTooltip,
     CustomInput,
-    AvatarAddOn,
     Media
 } from './../../../../components';
 
-import { randomArray, randomAvatar } from './../../../../utilities';
+import { randomArray } from './../../../../utilities';
 
 const status = [
     "warning",
@@ -60,22 +58,7 @@ const TrTableInbox = (props) => (
                                 Add To Favorites
                             </UncontrolledTooltip>
                         </div>
-                        <Avatar.Image
-                            size="md"
-                            src={ randomAvatar() }
-                            addOns={[
-                                <AvatarAddOn.Icon 
-                                    className="fa fa-circle"
-                                    color="white"
-                                    key="avatar-icon-bg"
-                                />,
-                                <AvatarAddOn.Icon 
-                                    className="fa fa-circle"
-                                    color={ randomArray(status) }
-                                    key="avatar-icon-fg"
-                                />
-                            ]}
-                        /> 
+                        
                     </Media>
                     <Media body>
                         <a className="mt-0 text-decoration-none d-flex" href="#">

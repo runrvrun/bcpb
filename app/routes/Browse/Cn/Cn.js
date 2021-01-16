@@ -1,6 +1,7 @@
 import React from 'react';
 import { chain, reduce } from 'lodash';
 import fetch from 'node-fetch';
+import axios from 'axios';
 
 import {
     Container,
@@ -24,254 +25,73 @@ import {
 import colors from '../../../colors';
 
 /*
-    CONSTS
-*/
-const DATA_URL = "https://api.myjson.com/bins/18oni9";
-
-const COUNTRY_CODES = {
-    Ireland: "ie",
-    Spain: "es",
-    "United Kingdom": "gb",
-    France: "fr",
-    Germany: "de",
-    Sweden: "se",
-    Italy: "it",
-    Greece: "gr",
-    Iceland: "is",
-    Portugal: "pt",
-    Malta: "mt",
-    Norway: "no",
-    Brazil: "br",
-    Argentina: "ar",
-    Colombia: "co",
-    Peru: "pe",
-    Venezuela: "ve",
-    Uruguay: "uy"
-};
-
-const IT_SKILLS = ["android", "css", "html5", "mac", "windows"];
-const IT_SKILLS_NAMES = ["Android", "CSS", "HTML 5", "Mac", "Windows"];
-
-const PROFICIENCY_NONE = "none";
-const PROFICIENCY_ABOVE40 = "above40";
-const PROFICIENCY_ABOVE60 = "above60";
-const PROFICIENCY_ABOVE80 = "above80";
-
-const PROFICIENCY_NAMES = ["No Filter", "Above 40%", "Above 60%", "Above 80%"];
-const PROFICIENCY_VALUES = [
-    PROFICIENCY_NONE,
-    PROFICIENCY_ABOVE40,
-    PROFICIENCY_ABOVE60,
-    PROFICIENCY_ABOVE80
-];
-
-/*
     Custom Renderers
 */
-const nameRenderer = ({ data }) => `
-        <span class="text-inverse">
-            ${ data.name }
-        </span>
-    `;
-const skillsCellRenderer = ({ data }) =>
-    chain(IT_SKILLS)
-        .map((skill) => data && data.skills[skill] ?
-            `<img src="//www.ag-grid.com/images/skills/${skill}.png" width="16px" title="${ skill }" />` : ''
-        )
-        .compact()
-        .join(' ')
-        .value();
-const countryCellRenderer = ({ value }) => `
-        <img width="15" height="10" style="margin-bottom: 2px" src="https://flags.fmcdn.net/data/flags/mini/${COUNTRY_CODES[value]}.png" /> ${ value }
-    `;
-const percentCellRenderer = ({ value }) => {
-    const eDivPercentBar = document.createElement('div');
-    eDivPercentBar.className = 'div-percent-bar';
-    eDivPercentBar.style.width = `${value}%`;
-    if (value < 20) {
-        eDivPercentBar.style.backgroundColor = colors['danger'];
-    } else if (value < 60) {
-        eDivPercentBar.style.backgroundColor = colors['warning'];
-    } else {
-        eDivPercentBar.style.backgroundColor = colors['success'];
-    }
-
-    const eValue = document.createElement('div');
-    eValue.className = 'div-percent-value';
-    eValue.innerHTML = `${value}%`;
-
-    const eOuterDiv = document.createElement('div');
-    eOuterDiv.className = 'div-outer-div';
-    eOuterDiv.appendChild(eDivPercentBar);
-    eOuterDiv.appendChild(eValue);
-
-    return eOuterDiv;
-}
-
-/*
-    Custom Filters
-*/
-class SkillFilter {
-    init({ filterChangedCallback }) {
-        this.filterChangedCallback = filterChangedCallback;
-
-        // Initial State
-        this.model = {
-            android: false,
-            css: false,
-            html5: false,
-            mac: false,
-            windows: false
-        }
-    }
-    getModel() { }
-    setModel() { }
-    getGui() {
-        const eGui = document.createElement("div");
-
-        const eInstructions = document.createElement("div");
-        eInstructions.className = "h6 dropdown-header";
-        eInstructions.innerText = "Custom Skills Filter";
-        eGui.appendChild(eInstructions);
-
-        const createCheckMarkElement = () => {
-            var eCheckMark = document.createElement('i');
-            eCheckMark.className = "fa fa-check fa-fw ml-auto text-success";
-
-            return eCheckMark;
-        }
-
-        IT_SKILLS.forEach((skill, index) => {
-            const skillName = IT_SKILLS_NAMES[index];
-
-            const eFilter = document.createElement("a");
-            eFilter.className = "dropdown-item d-flex align-items-center"
-            //eFilter.classList.toggle("active", this.model[skill]);
-            eFilter.href="javascript:;";
-
-            const eImg = document.createElement("img");
-            eImg.src = '//www.ag-grid.com/images/skills/' + skill + '.png';
-            eImg.height = 20;
-            eImg.className = "mr-2";
-
-            const eName = document.createElement('span');
-            eName.innerText = skillName;
-
-            eFilter.appendChild(eImg);
-            eFilter.appendChild(eName);
-            if (this.model[skill]) {
-                eFilter.appendChild(
-                    createCheckMarkElement()
-                );
-            }
-            eGui.appendChild(eFilter);
-
-            eFilter.addEventListener("click", (e) => {
-                const element = e.currentTarget;
-                this.model[skill] = !this.model[skill];
-                this.filterChangedCallback();
-
-                // Toggle check marks
-                if (this.model[skill]) {
-                    element.appendChild(
-                        createCheckMarkElement()
-                    );
-                } else {
-                    const eCheckMark = element.querySelector('i');
-
-                    if (eCheckMark) { eCheckMark.remove() }
-                }
-
-                return false;
-            });
-        });
-
-        return eGui;
-    }
-    doesFilterPass({ data }) {
-        const rowSkills = data.skills;
-        const { model } = this;
-
-        const passed = reduce(
-            IT_SKILLS,
-            (acc, skill) => acc || (rowSkills[skill] && model[skill]),
-            false
-        );
-
-        return passed;
-    }
-    isFilterActive() {
-        return (
-            this.model.android ||
-            this.model.css ||
-            this.model.html5 ||
-            this.model.mac ||
-            this.model.windows
-        );
-    }
-}
-
-class ProficiencyFilter {
-    init({ filterChangedCallback, valueGetter }) {
-        this.filterChangedCallback = filterChangedCallback;
-        this.valueGetter = valueGetter;
-
-        this.selected = PROFICIENCY_NONE;
-    }
-    getModel() { }
-    setModel() { }
-    getGui() {
-        const eGui = document.createElement("div");
-
-        const eInstructions = document.createElement("div");
-        eInstructions.className = "h6 dropdown-header";
-        eInstructions.innerText = "Custom Proficiency Filter";
-        eGui.appendChild(eInstructions);
-
-        PROFICIENCY_NAMES.forEach((name, index) => {
-            const eFilter = document.createElement("a");
-            eFilter.className = "dropdown-item"
-            eFilter.classList.toggle("active", PROFICIENCY_VALUES[index] === this.selected);
-            eFilter.href="javascript:;";
-            eFilter.innerText = name;
-            
-            eGui.appendChild(eFilter);
-
-            eFilter.addEventListener("click", (e) => {
-                const element = e.currentTarget;
-                element.parentElement.childNodes.forEach(function(node) {
-                    node.classList.toggle('active', false);
-                });
-                element.classList.toggle("active");
-
-                this.selected = PROFICIENCY_VALUES[index];
-                this.filterChangedCallback();
-
-                return false;
-            });
-        });
-
-        return eGui;
-    }
-    doesFilterPass(params) {
-        const value = this.valueGetter(params);
-        const valueAsNumber = parseFloat(value);
-
-        switch (this.selected) {
-            case PROFICIENCY_ABOVE40:
-                return valueAsNumber >= 40;
-            case PROFICIENCY_ABOVE60:
-                return valueAsNumber >= 60;
-            case PROFICIENCY_ABOVE80:
-                return valueAsNumber >= 80;
-            default:
-                return true;
-        }
-    }
-    isFilterActive() {
-        return this.selected !== PROFICIENCY_NONE;
-    }
-}
+const nomor_barangRenderer = ({ data }) => `
+    <span class="text-inverse">
+        ${ data.nomor_barang }
+    </span>
+`;
+const jenis_ajuRenderer = ({ data }) => `
+    <span class="text-inverse">
+        ${ data.jenis_aju }
+    </span>
+`;
+const nama_pemberitahuRenderer = ({ data }) => `
+    <span class="text-inverse">
+        ${ data.nama_pemberitahu }
+    </span>
+`;
+const nama_penerimaRenderer = ({ data }) => `
+    <span class="text-inverse">
+        ${ data.nama_penerima }
+    </span>
+`;
+const alamat_penerimaRenderer = ({ data }) => `
+    <span class="text-inverse">
+        ${ data.alamat_penerima }
+    </span>
+`;
+const tanggal_hawbRenderer = ({ data }) => `
+    <span class="text-inverse">
+        ${ data.tanggal_hawb }
+    </span>
+`;
+const current_statusRenderer = ({ data }) => `
+    <span class="text-inverse">
+        ${ data.current_status }
+    </span>
+`;
+const nama_pdttRenderer = ({ data }) => `
+    <span class="text-inverse">
+        ${ data.nama_pdtt }
+    </span>
+`;
+const cif_awalRenderer = ({ data }) => `
+    <span class="text-inverse">
+        ${ data.cif_awal }
+    </span>
+`;
+const cif_akhirRenderer = ({ data }) => `
+    <span class="text-inverse">
+        ${ data.cif_akhir }
+    </span>
+`;
+const fob_awalRenderer = ({ data }) => `
+    <span class="text-inverse">
+        ${ data.fob_awal }
+    </span>
+`;
+const fob_akhirRenderer = ({ data }) => `
+    <span class="text-inverse">
+        ${ data.fob_akhir }
+    </span>
+`;
+const kode_billingRenderer = ({ data }) => `
+    <span class="text-inverse">
+        ${ data.kode_billing }
+    </span>
+`;
 
 export default class Cn extends React.Component {
     constructor(props) {
@@ -291,11 +111,13 @@ export default class Cn extends React.Component {
     }
 
     componentDidMount() {
-        fetch(DATA_URL)
-            .then(res => res.json())
-            .then(fetchedData => {
-                this.setState({ rowData: fetchedData });
-            });
+        var token = sessionStorage.getItem('token');
+        const options = { headers: { Authorization: `Bearer ${token}` } };
+        axios.get("http://localhost:8080/cn", options)
+            .then(res => {
+                    this.setState({ rowData: res.data });
+            })
+            .catch(err => console.log(err));
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -376,63 +198,85 @@ export default class Cn extends React.Component {
                                 checkboxSelection
                                 suppressMenu
                             />
-
-                            <AgGridColumn headerName="Employee">
                                 <AgGridColumn
-                                    headerName="Name"
-                                    field="name"
+                                    headerName="Nomor Barang"
+                                    field="nomor_barang"
                                     width={ 150 }
-                                    cellRenderer={ nameRenderer }
+                                    cellRenderer={ nomor_barangRenderer }
                                 />
                                 <AgGridColumn
-                                    headerName="Country"
-                                    field="country"
+                                    headerName="Jenis Aju"
+                                    field="jenis_aju"
                                     width={ 150 }
-                                    cellRenderer={ countryCellRenderer }
-                                    filterParams={{
-                                        cellRenderer: countryCellRenderer,
-                                        cellHeight: 20
-                                    }}
-                                />
-                            </AgGridColumn>
-
-                            <AgGridColumn headerName="IT Skills">
-                                <AgGridColumn
-                                    headerName="Skills"
-                                    width={ 125 }
-                                    sortable={ false }
-                                    cellRenderer={ skillsCellRenderer }
-                                    filter={ SkillFilter }
+                                    cellRenderer={ jenis_ajuRenderer }
                                 />
                                 <AgGridColumn
-                                    headerName="Proficiency"
-                                    field="proficiency"
+                                    headerName="Nama Pemberitahu"
+                                    field="nama_pemberitahu"
                                     width={ 150 }
-                                    cellRenderer={ percentCellRenderer }
-                                    filter={ ProficiencyFilter }
-                                />
-                            </AgGridColumn>
-
-                            <AgGridColumn headerName="Contact">
-                                <AgGridColumn
-                                    headerName="Mobile"
-                                    field="mobile"
-                                    width={ 180 }
-                                    filter="agTextColumnFilter"
+                                    cellRenderer={ nama_pemberitahuRenderer }
                                 />
                                 <AgGridColumn
-                                    headerName="Land-line"
-                                    field="landline"
-                                    width={ 180 }
-                                    filter="agTextColumnFilter"
+                                    headerName="Nama Penerima"
+                                    field="nama_penerima"
+                                    width={ 150 }
+                                    cellRenderer={ nama_penerimaRenderer }
                                 />
                                 <AgGridColumn
-                                    headerName="Address"
-                                    field="address"
-                                    width={ 180 }
-                                    filter="agTextColumnFilter"
+                                    headerName="Alamat Penerima"
+                                    field="alamat_penerima"
+                                    width={ 150 }
+                                    cellRenderer={ alamat_penerimaRenderer }
                                 />
-                            </AgGridColumn>
+                                <AgGridColumn
+                                    headerName="Tanggal HAWB"
+                                    field="tanggal_hawb"
+                                    width={ 150 }
+                                    cellRenderer={ tanggal_hawbRenderer }
+                                />
+                                <AgGridColumn
+                                    headerName="Current Status"
+                                    field="current_status"
+                                    width={ 150 }
+                                    cellRenderer={ current_statusRenderer }
+                                />
+                                <AgGridColumn
+                                    headerName="Nama PDTT"
+                                    field="nama_pdtt"
+                                    width={ 150 }
+                                    cellRenderer={ nama_pdttRenderer }
+                                />
+                                <AgGridColumn
+                                    headerName="CIF Awal"
+                                    field="cif_awal"
+                                    width={ 150 }
+                                    cellRenderer={ cif_awalRenderer }
+                                />
+                                <AgGridColumn
+                                    headerName="CIF Akhir"
+                                    field="cif_akhir"
+                                    width={ 150 }
+                                    cellRenderer={ cif_akhirRenderer }
+                                />
+                                <AgGridColumn
+                                    headerName="FOB Awal"
+                                    field="fob_awal"
+                                    width={ 150 }
+                                    cellRenderer={ fob_awalRenderer }
+                                />
+                                <AgGridColumn
+                                    headerName="FOB Akhir"
+                                    field="fob_akhir"
+                                    width={ 150 }
+                                    cellRenderer={ fob_akhirRenderer }
+                                />
+                                <AgGridColumn
+                                    headerName="Kode Billing"
+                                    field="kode_billing"
+                                    width={ 150 }
+                                    cellRenderer={ kode_billingRenderer }
+                                />
+                                
                         </AgGridReact>
                     </div>
                     <CardFooter className="bg-white text-center">

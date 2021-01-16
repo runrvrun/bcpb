@@ -23,9 +23,7 @@ import {
     CustomInput,
     InputGroupAddon,
     Badge,
-    Avatar
 } from './../../../components';
-import { randomAvatar } from './../../../utilities';
 import { HeaderMain } from "../../components/HeaderMain";
 import { ProjectsSmHeader } from "../../components/Projects/ProjectsSmHeader";
 import { Attachment } from "../../components/Attachment";
@@ -136,10 +134,7 @@ const TasksDetails = () => (
                                 <NavLink href="#" className="d-flex">
                                     <Media>
                                         <Media left middle className="mr-3 align-self-center">
-                                            <Avatar.Image
-                                                size="md"
-                                                src={ randomAvatar() }
-                                            />
+                                           
                                         </Media>
                                         <Media body>
                                             <div className="mt-0">
@@ -157,10 +152,7 @@ const TasksDetails = () => (
                                 <NavLink href="#" className="d-flex">
                                     <Media>
                                         <Media left middle className="mr-3 align-self-center">
-                                            <Avatar.Image
-                                                size="md"
-                                                src={ randomAvatar() }
-                                            />
+                                          
                                         </Media>
                                         <Media body>
                                             <div className="mt-0">
@@ -178,10 +170,7 @@ const TasksDetails = () => (
                                 <NavLink href="#" className="d-flex">
                                     <Media>
                                         <Media left middle className="mr-3 align-self-center">
-                                            <Avatar.Image
-                                                size="md"
-                                                src={ randomAvatar() }
-                                            />
+                                            
                                         </Media>
                                         <Media body>
                                             <div className="mt-0">

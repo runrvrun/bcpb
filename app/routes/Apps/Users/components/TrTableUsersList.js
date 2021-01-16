@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 
 import { 
     Media,
-    Avatar,
-    AvatarAddOn,
     CustomInput,
     UncontrolledButtonDropdown,
     DropdownToggle,
@@ -13,77 +11,10 @@ import {
     DropdownItem
 } from './../../../../components';
 
-import { randomArray, randomAvatar } from './../../../../utilities';
+import { randomArray } from './../../../../utilities';
 
 const TrTableUsersList = (props) => {
 
-    const avatar = [
-        [
-            <AvatarAddOn.Icon 
-                className="fa fa-circle"
-                color="facebook"
-                key="avatar-icon-bg"
-            />,
-            <AvatarAddOn.Icon 
-                className="fa fa-facebook"
-                color="white"
-                key="avatar-icon-fg"
-                small
-            />
-        ],
-        [
-            <AvatarAddOn.Icon 
-                className="fa fa-circle"
-                color="twitter"
-                key="avatar-icon-bg"
-            />,
-            <AvatarAddOn.Icon 
-                className="fa fa-twitter"
-                color="white"
-                key="avatar-icon-fg"
-                small
-            />
-        ],
-        [
-            <AvatarAddOn.Icon 
-                className="fa fa-circle"
-                color="linkedin"
-                key="avatar-icon-bg"
-            />,
-            <AvatarAddOn.Icon 
-                className="fa fa-linkedin"
-                color="white"
-                key="avatar-icon-fg"
-                small
-            />
-        ],
-        [
-            <AvatarAddOn.Icon 
-                className="fa fa-circle"
-                color="foursquare"
-                key="avatar-icon-bg"
-            />,
-            <AvatarAddOn.Icon 
-                className="fa fa-foursquare"
-                color="white"
-                key="avatar-icon-fg"
-                small
-            />
-        ],
-        [
-            <AvatarAddOn.Icon 
-                className="fa fa-circle"
-                color="paypal"
-                key="avatar-icon-bg"
-            />,
-            <AvatarAddOn.Icon 
-                className="fa fa-paypal"
-                color="white"
-                key="avatar-icon-fg"
-                small
-            />
-        ],
-    ];
     return (
         <React.Fragment>
             <tr>
@@ -98,19 +29,7 @@ const TrTableUsersList = (props) => {
                 <td>
                     <Media>
                         <Media left className="d-flex align-self-center mr-3">
-                            <Avatar.Image
-                                size="md"
-                                src={ randomAvatar() }
-                                className="align-self-center"
-                                addOns={[
-                                    <AvatarAddOn.Icon 
-                                        className="fa fa-circle"
-                                        color="white"
-                                        key="avatar-icon-white-bg"
-                                    />,
-                                    ...randomArray(avatar)
-                                ]}
-                            /> 
+                            
                         </Media>
                         <Media body>
                             <a className="mt-0 d-flex text-decoration-none" href="#">

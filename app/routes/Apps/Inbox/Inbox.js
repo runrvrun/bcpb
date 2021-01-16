@@ -8,8 +8,6 @@ import {
     Row,
     Col,
     ButtonToolbar,
-    Avatar,
-    AvatarAddOn,
     Card,
     Button,
     ButtonGroup,

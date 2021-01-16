@@ -9,10 +9,7 @@ import {
     UncontrolledPopover,
     PopoverBody,
     Media,
-    Avatar,
-    AvatarAddOn
 } from './../../../components';
-import { randomAvatar } from './../../../utilities';
 
 import { DropdownProfile } from '../Dropdowns/DropdownProfile';
 import { FooterAuth } from '../Pages/FooterAuth';
@@ -28,22 +25,7 @@ const SidebarBottomB = () => (
                     <DropdownToggle color="link" className="btn-profile text-left pl-0 pb-0">
                             <Media>
                                 <Media left middle className="mr-3">
-                                    <Avatar.Image
-                                        size="md"
-                                        src={ randomAvatar() }
-                                        addOns={[
-                                            <AvatarAddOn.Icon 
-                                                className="fa fa-circle"
-                                                color="white"
-                                                key="avatar-icon-bg"
-                                            />,
-                                            <AvatarAddOn.Icon 
-                                                className="fa fa-circle"
-                                                color="success"
-                                                key="avatar-icon-fg"
-                                            />
-                                        ]}
-                                    /> 
+                                    
                                 </Media>
                                 <Media body>
                                     <span className="mt-0 d-flex h6 mb-1 text-truncate">
@@ -64,22 +46,7 @@ const SidebarBottomB = () => (
                 <div className="text-center">
                     <UncontrolledButtonDropdown direction="right" className="mb-3">
                         <DropdownToggle color="link" className="text-left pl-0 pb-0">
-                            <Avatar.Image
-                                size="sm"
-                                src={ randomAvatar() }
-                                addOns={[
-                                    <AvatarAddOn.Icon 
-                                        className="fa fa-circle"
-                                        color="white"
-                                        key="avatar-icon-bg"
-                                    />,
-                                    <AvatarAddOn.Icon 
-                                        className="fa fa-circle"
-                                        color="success"
-                                        key="avatar-icon-fg"
-                                    />
-                                ]}
-                            /> 
+                            
                         </DropdownToggle>
                         <DropdownProfile />
                     </UncontrolledButtonDropdown>

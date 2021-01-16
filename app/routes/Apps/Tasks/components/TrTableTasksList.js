@@ -5,27 +5,19 @@ import { Link } from 'react-router-dom';
 
 import { 
     Badge,
-    Avatar,
     CustomInput,
     UncontrolledButtonDropdown,
     DropdownToggle,
     DropdownMenu,
     DropdownItem,
-    AvatarAddOn
 } from './../../../../components';
 
-import { randomArray, randomAvatar } from './../../../../utilities';
+import { randomArray } from './../../../../utilities';
 
 const badges = [
     "secondary"
 ];
 
-const avatarStatus = [
-    "secondary",
-    "warning",
-    "danger",
-    "success"
-];
 
 const prioStatus = [
         <React.Fragment key="1">
@@ -98,23 +90,7 @@ const TrTableTasksList = (props) => (
                 </p>
             </td>
             <td className="align-middle">
-                <Avatar.Image
-                    size="md"
-                    src={ randomAvatar() }
-                    className="mr-3"
-                    addOns={[
-                        <AvatarAddOn.Icon 
-                            className="fa fa-circle"
-                            color="white"
-                            key="avatar-icon-bg"
-                        />,
-                        <AvatarAddOn.Icon 
-                            className="fa fa-circle"
-                            color={ randomArray(avatarStatus) }
-                            key="avatar-icon-fg"
-                        />
-                    ]}
-                />
+                
             </td>
             <td className="align-middle">
                 16-Jul-2016

@@ -19,6 +19,12 @@ export const SidebarMiddleNav = () => (
             <SidebarMenu.Item title="Data CN" to='/browse/cn' exact />
         </SidebarMenu.Item>
         <SidebarMenu.Item
+            icon={<i className="fa fa-fw fa-files-o"></i>}
+            title="Dokumen"
+        >
+            <SidebarMenu.Item title="Pengawasan" to='/dokumen/pengawasan' exact />
+        </SidebarMenu.Item>
+        <SidebarMenu.Item
             icon={<i className="fa fa-fw fa-user"></i>}
             title="Administrator"
         >

@@ -14,6 +14,9 @@ import Kantor from './Dashboards/Kantor';
 import Penerimaan from './Browse/Penerimaan';
 import Cn from './Browse/Cn';
 
+import Pengawasan from './Dokumen/Pengawasan';
+import AddPengawasan from './Dokumen/AddPengawasan';
+
 import NavbarOnly from './Layouts/NavbarOnly';
 import SidebarWithNavbar from './Layouts/SidebarWithNavbar';
 
@@ -38,6 +41,9 @@ export const RoutedContent = () => {
 
             <Route path='/browse/penerimaan' exact component={Penerimaan} />
             <Route path='/browse/cn' exact component={Cn} />
+
+            <Route path='/dokumen/pengawasan' exact component={Pengawasan} />
+            <Route path='/dokumen/pengawasan/add' exact component={AddPengawasan} />
 
             { /*    404    */ }
             <Redirect to="/pages/error-404" />

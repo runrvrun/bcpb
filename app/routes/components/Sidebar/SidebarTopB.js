@@ -6,8 +6,6 @@ import {
     UncontrolledTooltip
 } from './../../../components';
 
-import { VersionSelector } from '../VersionSelector';
-
 const SidebarTopB = () => (
     <React.Fragment>
         { /* START Sidebar TOP: B */ }

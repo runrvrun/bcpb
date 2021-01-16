@@ -14,11 +14,8 @@ import {
     ButtonToolbar,
     Badge,
     Media,
-    Avatar,
-    AvatarAddOn,
     UncontrolledTooltip
 } from './../../../components';
-import { randomAvatar } from './../../../utilities';
 import { HeaderMain } from "../../components/HeaderMain";
 import { MailboxLeftNav } from "../../components/Mailbox/MailboxLeftNav";
 import { Attachment } from "../../components/Attachment";
@@ -102,22 +99,7 @@ const EmailDetails = () => (
                                 <div className="d-flex flex-column flex-md-row">
                                     <Media>
                                         <Media left className="align-self-center mr-4">
-                                            <Avatar.Image
-                                                size="md"
-                                                src={ randomAvatar() }
-                                                addOns={[
-                                                    <AvatarAddOn.Icon 
-                                                        className="fa fa-circle"
-                                                        color="white"
-                                                        key="avatar-icon-bg"
-                                                    />,
-                                                    <AvatarAddOn.Icon 
-                                                        className="fa fa-circle"
-                                                        color="danger"
-                                                        key="avatar-icon-fg"
-                                                    />
-                                                ]}
-                                            /> 
+                                            
                                         </Media>
                                         <Media body>
                                             <a className="mt-0 text-decoration-none d-flex" href="#">

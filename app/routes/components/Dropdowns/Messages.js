@@ -2,11 +2,9 @@ import React from 'react';
 import faker from 'faker/locale/en_US';
 
 import { 
-    Avatar, 
-    AvatarAddOn,
     Media
 } from './../../../components';
-import { randomArray, randomAvatar } from './../../../utilities';
+import { randomArray } from './../../../utilities';
 
 const status = [
     "success",
@@ -19,22 +17,6 @@ const Messages = () => (
     <React.Fragment>
         <Media>
             <Media left className="mr-4">
-                <Avatar.Image
-                    size="md"
-                    src={ randomAvatar() }
-                    addOns={[
-                        <AvatarAddOn.Icon 
-                            className="fa fa-circle"
-                            color="white"
-                            key="avatar-icon-bg"
-                        />,
-                        <AvatarAddOn.Icon 
-                            className="fa fa-circle"
-                            color={ randomArray(status) }
-                            key="avatar-icon-fg"
-                        />
-                    ]}
-                />
             </Media>
             <Media body className="text-left">
                 <span className="d-flex justify-content-start">
