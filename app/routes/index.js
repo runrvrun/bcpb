@@ -15,7 +15,8 @@ import Penerimaan from './Browse/Penerimaan';
 import Cn from './Browse/Cn';
 
 import Pengawasan from './Dokumen/Pengawasan';
-import AddPengawasan from './Dokumen/AddPengawasan';
+import AddPengawasan from './Dokumen/Pengawasan/AddPengawasan';
+import PrintPengawasan from './Dokumen/Pengawasan/PrintPengawasan';
 
 import NavbarOnly from './Layouts/NavbarOnly';
 import SidebarWithNavbar from './Layouts/SidebarWithNavbar';
@@ -44,6 +45,8 @@ export const RoutedContent = () => {
 
             <Route path='/dokumen/pengawasan' exact component={Pengawasan} />
             <Route path='/dokumen/pengawasan/add' exact component={AddPengawasan} />
+            <Route path='/dokumen/pengawasan/print/:param' exact component={PrintPengawasan} />
+            {/* <Route exact path="/dokumen/pengawasan/print/:param" render={(props) => <PrintPengawasan globalStore={globalStore} {...props} /> } /> */}
 
             { /*    404    */ }
             <Redirect to="/pages/error-404" />
